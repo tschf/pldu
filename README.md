@@ -1,5 +1,7 @@
 # PL/SQL Dev Util
 
+[![Build Status](https://travis-ci.org/tschf/pldu.svg?branch=master)](https://travis-ci.org/tschf/pldu)
+
 ## Motivation
 
 I found when developing a new table, it's useful to be able to quickly drop and recreate said table. Note, a current design pattern my projects follow is that the sequence name is the table name + _SEQ. So, the drop_table procedure follows along from that dropping the table and corresponding sequence following that pattern.
