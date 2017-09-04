@@ -1,0 +1,36 @@
+langauge: go
+sudo: required
+version:
+  - 1.6
+
+env:
+  global:
+    - CACHE_DIR=$HOME/.cache
+    - XE_ZIP=oracle-xe-11.2.0-1.0.x86_64.rpm.zip
+    - XE_RPM=oracle-xe-11.2.0-1.0.x86_64.rpm
+    - ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe
+    - ORACLE_SID=XE
+
+cache:
+  directories:
+    - $CACHE_DIR
+
+notifications:
+  email: false
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get --no-install-recommends -qq install bc libaio1 rpm unzip
+  - bash .travis/oracle/download.sh
+
+install:
+  - bash .travis/oracle/install.sh
+
+before_script:
+  - >
+    { echo "CREATE USER scott IDENTIFIED BY tiger;";
+      echo "GRANT CONNECT, RESOURCE to scott;";
+    } | "$ORACLE_HOME/bin/sqlplus" -L -S / AS SYSDBA
+
+script:
+  - ./test.sh
